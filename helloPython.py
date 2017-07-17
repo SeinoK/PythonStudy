@@ -1,6 +1,8 @@
+
 import random
 import sys
 import os
+import types
 
 # print(5 % 2)
 # print(5 / 2)
@@ -16,6 +18,7 @@ import os
 
 # This is usage of list, list is a kind of data structure in python, that you can insert and append new item to a list
 # very easily and even something else, so it will occupy more memory
+# list类型的数据可以方便的增查删改，正因为方便操作，所以更占内存
 
 # **********************************
 # grocery_list = ['apple', 'pear', 'milk', 'banana', 'table', 'juice']
@@ -113,8 +116,182 @@ import os
 # for i in quote_list:
 #     print(i)
 #
-test_file = open('test.txt', 'wb')
-print(test_file.mode)
-print(test_file.name)
-test_file.write(bytes('Write me to the file\n', 'UTF-8'))
-test_file.close()
+# 这里是对文件的操作
+# write_file = open('test.txt', 'wb')
+# write_file.write(bytes('Write me to the file', 'UTF-8'))
+# print(write_file.mode)
+# print(write_file.name)
+# write_file.close()
+
+#
+# read_file = open('test.txt', 'a+')
+# # print(text_in_file)
+# read_file.writelines('Hello')
+# text_in_file = read_file.read()
+# print(text_in_file)
+# read_file.close()
+
+
+# f = open('test.txt', 'w+')
+# # f.write(bytes('apple', 'UTF-8'))
+# all_the_Text = f.read()
+# print(all_the_Text)
+# f.close()
+
+# start:stop:step   这个是list的切片操作
+
+# aList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+# print(aList[1:])
+# print(aList[:-1])
+# print(aList[3:8])
+# print(aList[0:aList.__len__():2])    # a：b：c  表示从a下标到b下标，每隔c遍历一次
+# print(aList[::5])
+
+
+class Animal:
+    _name = ''
+    _height = 0
+    _weight = 0
+    _sound = 0
+
+    def set_name(self, name):
+        self._name = name
+
+    def get_name(self):
+        return self._name
+
+    def set_height(self, height):
+        self._height = height
+
+    def get_height(self):
+        return self._height
+
+    def set_weight(self, weight):
+        self._weight = weight
+
+    def get_weight(self):
+        return self._weight
+
+    def set_sound(self, sound):
+        self._sound = sound
+
+    def get_sound(self):
+        return self._sound
+
+    def __init__(self, name, height, weight, sound):
+        self._name = name
+        self._height = height
+        self._weight = weight
+        self._sound = sound
+
+    def get_type(self):
+        print('Animal')
+
+    def toString(self):
+        return "{} is {} cm tall and {} kilograms and says {}".format(self._name,
+                                                                      self._height,
+                                                                      self._weight,
+                                                                      self._sound)
+
+
+cat = Animal('Tomato', 30, 7.5, 'Meow')
+print(cat.toString())
+
+
+class Dog(Animal):  # Dog继承于Animal
+    _owner = ''
+
+    def __init__(self, name, height, weight, sound, owner):
+        self._owner = owner
+        super(Dog, self).__init__(name, height, weight, sound)
+
+    def set_owner(self, owner):
+        self._owner = owner
+
+    def get_owner(self):
+        return self._owner
+
+    def get_type(self):
+        print("Dog")
+
+    def toString(self):
+        return "{} is {} cm tall and {} kilograms and says {} The owner is {}".format(self._name,
+                                                                                      self._height,
+                                                                                      self._weight,
+                                                                                      self._sound,
+                                                                                      self._owner)
+
+    def multi_sounds(self, how_many=None):
+        if how_many is None:
+            print(self.get_sound())
+        else:
+            print(self.get_sound() * how_many)
+
+
+spot = Dog('Spotdog', 50, 16, 'bark', 'Seino')
+spot.toString()
+
+
+#
+# class Bare(Animal):
+#
+
+
+class Animal_Testing:
+    def get_type(self, animal):
+        animal.get_type()
+
+
+test_Animal = Animal_Testing()
+test_Animal.get_type(cat)
+test_Animal.get_type(spot)
+
+
+class Haski(Dog):
+    _attack = 0
+
+    def __init__(self, name, height, weight, sound, owner, attack):
+        self._attack = attack
+        super(Haski, self).__init__(name, height, weight, sound, owner)
+
+    def set_attact(self, attack):
+        self._attack = attack
+
+    def get_attack(self):
+        return self._attack
+
+    def get_type(self):
+        print('Haski, a kind of dog')
+
+    def toString(self):
+        print("{} is {} cm tall and {} kilograms and says {}, owner is {}, attack is {}".format(self._name,
+                                                                                                self._height,
+                                                                                                self._weight,
+                                                                                                self._sound,
+                                                                                                self._owner,
+                                                                                                self._attack))
+
+    def isInt(self, num):
+        return [True, False][type(num) == type(1)]
+
+    def check(self, num):
+        tag = True
+        if type(num) != type(1):
+            tag = False
+        return tag
+
+    def cast_damage(self, atk_times):
+        damage_health = atk_times * self._attack
+        if atk_times is None:
+            print('You still safe')
+        else:
+            if damage_health < 100:
+                print("You just been attacted by {} times still got {} health".format(atk_times, 100 - damage_health))
+            elif damage_health >= 100:
+                print("You totally got killed")
+
+
+kk = Haski('KK', 50, 15, 'Haha', 'Seino', 25)
+kk.toString()
+print(kk.cast_damage(3))
+# print(kk.check(20))
